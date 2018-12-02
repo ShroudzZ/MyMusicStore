@@ -24,7 +24,10 @@ namespace MusicStore.Migrations
             GenreSeed.Seed();
             ArtistSeed.Seed();
             AlbumSeed.Seed();
-            
+            UserAndRoleSeed.AddRoles();
+            UserAndRoleSeed.AddUsers();
+
+
         }
     }
 }

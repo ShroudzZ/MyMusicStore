@@ -1,0 +1,25 @@
+﻿@using MusicStore.ViewModels
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+
+<h2>用户登录</h2>
+<p>如果没有账号请点 @Html.ActionLink("这里","Register")</p>
+@using (Html.BeginForm("Login","Account",new {returnUrl=ViewBag.RetrunUrl},FormMethod.Post))
+{
+    <div>
+        <fieldset>
+            <legend>用户信息</legend>
+            @Html.LabelFor(x => x.UserName)
+            <div>
+                @Html.TextBoxFor(x => x.UserName, new {placeholder = "请输入用户名"})
+            </div>
+            @Html.LabelFor(x => x.PassWord)
+            <div>
+                @Html.TextBoxFor(x => x.PassWord, new {placeholder = "请输入密码"})
+            </div>
+        </fieldset>
+    </div>
+}
