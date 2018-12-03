@@ -3,6 +3,6 @@
 <ul class="nav nav-pills nav-stacked">
     @foreach (var item in Model)
     {
-        <li class="active" >@Html.ActionLink(item.Name, "Genre", "Home", new { id = item.ID },null)</li>
+        <li class="active text-center" >@Html.ActionLink(item.Name, "Genre", "Home", new { id = item.ID },null)</li>
     }
 </ul>

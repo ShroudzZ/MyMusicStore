@@ -1,7 +1,22 @@
-﻿@using MusicStoreEntity
+﻿@using MusicStore.ViewModels
+@using MusicStoreEntity
+@using MusicStoreEntity.UserAndRole
+@{
+    
+    var loguser = Session["LoginUserSessionModel"] as LoginUserSessionModel;
+    ApplicationUser user = null;
+    if (loguser != null)
+    {
+        if (loguser.User != null)
+        {
+            user= loguser.User;
+        }
+
+
+    }
+}
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Music store</title>
     <meta charset="utf-8">
@@ -10,14 +25,13 @@
     @*绑定样式库*@
     @Styles.Render("~/Content/css")
     @*绑定脚本*@
-  
+
     <style>
         .row .col-lg-3 {
             border: 1px solid #aaa;
         }
     </style>
 </head>
-
 <body>
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -34,12 +48,27 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class=""><a href="#">关于</a></li>
                     <li><a href="@Url.Action("index","Store")">专辑</a></li>
-                    <li>
-                        <a href="@Url.Action("Login","Account")">
-                            登录 <b class="caret"></b>
-                        </a>
-                        
-                    </li>
+                    @if (user == null)
+                    {
+                        <li>
+                            <a href="@Url.Action("Login", "Account")">
+                                登录 
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 管理员 <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">购物车(1)</a></li>
+                                <li><a href="#">我的订单</a></li>
+                                <li><a href="#">设置</a></li>
+                                <li><a href="#">注销</a></li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">
@@ -48,16 +77,13 @@
                     </div>
                 </form>
             </div>
-
             <div class="row">
-
             </div>
-
             <div class="row">
-                <div class="col-lg-2 col-xs-3">
-                   @Html.Partial("../Left",new MusicContext().Genres.ToList())
+                <div class="col-lg-2 col-xs-2">
+                    @Html.Partial("../Left", new MusicContext().Genres.ToList())
                 </div>
-                <div class="col-lg-10 col-xs-9">
+                <div class="col-lg-10 col-xs-10">
                     @RenderBody()
                 </div>
             </div>
@@ -71,7 +97,7 @@
 </body>
 </html>
 @*继承次布局页的页面执行脚本的位置*@
-@RenderSection("scripts",required:false)
+@RenderSection("scripts", required: false)
 <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=emKzTIR8orgFMUjXFLjgU1IT"></script>
 <script>
     // 定位
