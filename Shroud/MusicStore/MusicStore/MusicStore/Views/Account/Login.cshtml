@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/View.cshtml";
+    var msg = "";
+    if (ViewBag.LoginUserStatus != null)
+    {
+        msg = (ViewBag.LoginUserStatus as LoginUserStatus).Message;
+    }
 }
 
 <h2>用户登录</h2>
@@ -15,11 +20,17 @@
             @Html.LabelFor(x => x.UserName)
             <div>
                 @Html.TextBoxFor(x => x.UserName, new {placeholder = "请输入用户名"})
+                @Html.ValidationMessageFor(x => x.UserName)
             </div>
             @Html.LabelFor(x => x.PassWord)
             <div>
-                @Html.TextBoxFor(x => x.PassWord, new {placeholder = "请输入密码"})
+                @Html.PasswordFor(x => x.PassWord, new {placeholder = "请输入密码"})
+                @Html.ValidationMessageFor(x => x.PassWord)
             </div>
+            <p class="text-danger">
+                @msg
+            </p>
+            <input type="submit" class="btn btn-primary" value="登录"/>
         </fieldset>
     </div>
 }

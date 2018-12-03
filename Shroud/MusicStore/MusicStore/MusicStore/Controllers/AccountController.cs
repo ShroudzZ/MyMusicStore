@@ -40,6 +40,7 @@ namespace MusicStore.Controllers
                     IsLogin = false,
                     Message = "用户或密码错误！"
                 };
+                
                 var userManage = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MusicContext()));
                 var user = userManage.Find(model.UserName, model.PassWord);
                 if(user!=null)
@@ -68,7 +69,20 @@ namespace MusicStore.Controllers
                     var identity = userManage.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
                     return Redirect(returnUrl);
                 }
+                else
+                {
+                    if (string.IsNullOrEmpty(returnUrl))
+                        ViewBag.ReturnUrl = Url.Action("index", "home");
+                    else
+                        ViewBag.ReturnUrl = returnUrl;
+                    ViewBag.LoginUserStatus = lStatus;
+                    return View();
+                }
             }
+            if (string.IsNullOrEmpty(returnUrl))
+                ViewBag.ReturnUrl = Url.Action("index", "home");
+            else
+                ViewBag.ReturnUrl = returnUrl;
             return View();
         }
     }
