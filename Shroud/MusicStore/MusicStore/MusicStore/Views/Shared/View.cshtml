@@ -1,19 +1,23 @@
 ﻿@using MusicStore.ViewModels
 @using MusicStoreEntity
 @using MusicStoreEntity.UserAndRole
+@using MusicStore.Helper
 @{
-    
+
     var loguser = Session["LoginUserSessionModel"] as LoginUserSessionModel;
+    var pagemodel = Session["PageModel"] as PageViewModel;
+    var Genreid = Session["Genreid"];
     ApplicationUser user = null;
     if (loguser != null)
     {
         if (loguser.User != null)
         {
-            user= loguser.User;
+            user = loguser.User;
         }
-
-
     }
+    bool IsIndex = true;
+    if (Session["Genreid"] == null) { IsIndex = true; }
+    else { IsIndex = false; }
 }
 <!DOCTYPE html>
 <html>
@@ -26,11 +30,6 @@
     @Styles.Render("~/Content/css")
     @*绑定脚本*@
 
-    <style>
-        .row .col-lg-3 {
-            border: 1px solid #aaa;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -52,14 +51,15 @@
                     {
                         <li>
                             <a href="@Url.Action("Login", "Account")">
-                                登录 
+                                登录
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 管理员 <b class="caret"></b>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                管理员 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">购物车(1)</a></li>
@@ -78,14 +78,40 @@
                 </form>
             </div>
             <div class="row">
-            </div>
-            <div class="row">
-                <div class="col-lg-2 col-xs-2">
+                <div class="col-lg-2 col-sm-2">
                     @Html.Partial("../Left", new MusicContext().Genres.ToList())
                 </div>
-                <div class="col-lg-10 col-xs-10">
+                <div class="col-lg-10 col-sm-10 col-xs-12">
                     @RenderBody()
                 </div>
+            </div>
+            <div class="row">
+                @Html.Pagination(pagemodel.PageInfo, (info) =>
+           {
+               var pagingString = "<ul class=\"pagination center-block\" style=\"width:165px;\">";
+
+               for (var i = 1; i <= info.PageCount; i++)
+               {
+                   if (i == info.PageIndex)
+                   {
+                       pagingString += "<li><a href=\"#\">" + i + "</a></li>";
+                   }
+                   else
+                   {
+                       if (IsIndex)
+                       {
+                           pagingString += "<li><a  href=\"" + Url.Action("Index", new { pageIndex = i, pageSize = info.PageSize }) + "\">" + i + "</a></li>";
+                       }
+                       else
+                       {
+                           
+                           pagingString += "<li><a  href=\"" + Url.Action("GenrePage", new { id = Genreid, pageIndex = i, pageSize = info.PageSize }) + "\">" + i + "</a></li>";
+                       }
+                   }
+               }
+               pagingString += "</ul>";
+               return pagingString;
+           })
             </div>
             <footer id="footer" class="footer navbar-bottom ">
                 <div class="copy-right"><span>© 2017-2018</span> <a href="http://www.miibeian.gov.cn/" target="_blank">2017级软件技术1班</a></div>

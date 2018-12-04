@@ -18,6 +18,11 @@ namespace MusicStore
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                    name: "Page",
+                    url: "{controller}/{action}/{page}",
+                    defaults: new { controller = "Home", action = "index", page = UrlParameter.Optional }
+                );
         }
     }
 }

@@ -2,16 +2,19 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/View.cshtml";
+   
 }
 @foreach (var item in Model)
 {
-    <div class="col-lg-3 col-sm-6">
+    <div class="col-lg-3 col-sm-6" >
         <a href="@Url.Action("Detail","Store",new {id=item.ID})">
             <img src="" />
-            <h3>
+            <h3 style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
                 @item.Title
             </h3>
             <small>@item.Artist.Name</small>
         </a>
     </div>
 }
+
+

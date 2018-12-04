@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<MusicStoreEntity.Genre>
 
-<ul class="nav nav-pills nav-stacked">
+<ul class="nav nav-pills nav-stacked hidden-xs">
     @foreach (var item in Model)
     {
-        <li class="active text-center" >@Html.ActionLink(item.Name, "Genre", "Home", new { id = item.ID },null)</li>
+        <li class="active text-center">@Html.ActionLink(item.Name, "Genre", "Home", new { id = item.ID },null)</li>
     }
 </ul>

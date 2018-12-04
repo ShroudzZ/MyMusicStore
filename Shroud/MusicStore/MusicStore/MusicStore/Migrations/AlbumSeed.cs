@@ -96,7 +96,28 @@ namespace MusicStore.Migrations
                 new Album () { Title="恰似你的温柔" , Price = 7.9m,Genre = _GetGenreByGenreName("英伦"), GenreId = _GetGenreByGenreName("英伦").ID.ToString(), Artist = _GetArtistByArtistName("王力宏"), ArtistId = _GetArtistByArtistName("王力宏").ID.ToString()},
                 new Album () { Title="自己的歌" , Price = 6.9m,Genre = _GetGenreByGenreName("民族"), GenreId = _GetGenreByGenreName("民族").ID.ToString(), Artist = _GetArtistByArtistName("田馥甄"), ArtistId = _GetArtistByArtistName("田馥甄").ID.ToString()},
                 new Album () { Title="路人" , Price = 5.9m,Genre = _GetGenreByGenreName("民谣"), GenreId = _GetGenreByGenreName("民谣").ID.ToString(), Artist = _GetArtistByArtistName("Charlie Puth"), ArtistId = _GetArtistByArtistName("Charlie Puth").ID.ToString()},
-            }.ForEach(g=>_dbMusicContext.Albums.Add(g));
+
+
+
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("田馥甄"), ArtistId = _GetArtistByArtistName("田馥甄").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("王力宏"), ArtistId = _GetArtistByArtistName("王力宏").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("艾热"), ArtistId = _GetArtistByArtistName("艾热").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("许嵩"), ArtistId = _GetArtistByArtistName("许嵩").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("马雨阳"), ArtistId = _GetArtistByArtistName("马雨阳").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("毛不易"), ArtistId = _GetArtistByArtistName("毛不易").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("徐秉龙"), ArtistId = _GetArtistByArtistName("徐秉龙").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("王以太"), ArtistId = _GetArtistByArtistName("王以太").ID.ToString()},
+                new Album () { Title = "Bad Habit", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("蔡健雅"), ArtistId = _GetArtistByArtistName("蔡健雅").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("田馥甄"), ArtistId = _GetArtistByArtistName("田馥甄").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("王力宏"), ArtistId = _GetArtistByArtistName("王力宏").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("艾热"), ArtistId = _GetArtistByArtistName("艾热").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("许嵩"), ArtistId = _GetArtistByArtistName("许嵩").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("马雨阳"), ArtistId = _GetArtistByArtistName("马雨阳").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("毛不易"), ArtistId = _GetArtistByArtistName("毛不易").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("徐秉龙"), ArtistId = _GetArtistByArtistName("徐秉龙").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("王以太"), ArtistId = _GetArtistByArtistName("王以太").ID.ToString()},
+                new Album () { Title = "路人", Price = 8.9m,Genre = _GetGenreByGenreName("乡村"), GenreId = _GetGenreByGenreName("乡村").ID.ToString(), Artist = _GetArtistByArtistName("蔡健雅"), ArtistId = _GetArtistByArtistName("蔡健雅").ID.ToString()},
+            }.ForEach(g => _dbMusicContext.Albums.Add(g));
             _dbMusicContext.SaveChanges();
         }
 

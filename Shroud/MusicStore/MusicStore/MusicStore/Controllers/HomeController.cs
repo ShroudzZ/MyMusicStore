@@ -6,25 +6,68 @@ using System.Web;
 using System.Web.Mvc;
 using MusicStoreEntity;
 using System.Threading.Tasks;
+using MusicStore.ViewModels;
 
 namespace MusicStore.Controllers
 {
     public class HomeController : Controller
     {
         private static readonly MusicContext _context = new MusicContext();
-        // GET: test
-        public ActionResult Index()
+        
+        public ActionResult Index(int pageIndex=1,int pageSize=20)
         {
-            var list = _context.Albums.OrderByDescending(x=>x.PublisherDate).Take(20).ToList();
-            return View(list);
+            var list = _context.Albums;
+            var pagelist = list.OrderByDescending(a => a.PublisherDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var pagelistmodel = new PageViewModel()
+            {
+                Items = pagelist,
+                PageInfo = new ViewModels.PageInfo
+                {
+                    Itemall = list.Count(),
+                    PageIndex = pageIndex,
+                    PageSize = pageSize
+                }
+            };
+            Session["PageModel"] = pagelistmodel;
+            return View(pagelist);
         }
 
         public ActionResult Genre(Guid id)
         {
-            var list = _context.Albums.Where(g=>g.Genre.ID==id).OrderByDescending(x => x.PublisherDate).ToList();
+            Session["Genreid"] = id;
+            var list = _context.Albums.Where(g => g.Genre.ID == id).OrderByDescending(x => x.PublisherDate).ToList();
+            var pagelist = list.OrderByDescending(a => a.PublisherDate).Skip((1 - 1) * 20).Take(20).ToList();
+            var pagelistmodel = new PageViewModel()
+            {
+                Items = pagelist,
+                PageInfo = new ViewModels.PageInfo
+                {
+                    Itemall = list.Count(),
+                    PageIndex = 1,
+                    PageSize = 20
+                }
+            };
+            Session["PageModel"] = pagelistmodel;
             return View(list);
         }
-
+        public ActionResult GenrePage(Guid id, int pageIndex = 1, int pageSize = 20)
+        {
+            var list = _context.Albums.Where(g => g.Genre.ID == id);
+            Session["Genreid"] = id;
+            var pagelist = list.OrderByDescending(a => a.PublisherDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var pagelistmodel = new PageViewModel()
+            {
+                Items = pagelist,
+                PageInfo = new ViewModels.PageInfo
+                {
+                    Itemall = list.Count(),
+                    PageIndex = pageIndex,
+                    PageSize = pageSize
+                }
+            };
+            Session["PageModel"] = pagelistmodel;
+            return View("Genre",pagelist);
+        }
         /// <summary>
         /// 伪造攻击
         /// </summary>
