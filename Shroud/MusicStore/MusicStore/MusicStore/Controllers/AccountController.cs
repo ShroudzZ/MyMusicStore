@@ -25,28 +25,33 @@ namespace MusicStore.Controllers
             var idManger = new IdentityManager();
             var p1 = new Person()
             {
-                FirstName = model.MyName.Substring(0,1),
-                LastName = model.MyName.Substring(1,model.MyName.Length-1),
+
+                FirstName = model.MyName.Substring(0, 1),
+                LastName = model.MyName.Substring(1, model.MyName.Length - 1),
                 Email = model.Email,
-                Name = model.MyName,
-                CredentialsCode = "4545454545454545"
+                Name = model.UserName,
+                CredentialsCode = "4545454545454541"
             };
             var registerUser = new ApplicationUser()
             {
                 ChineseFullName = model.MyName,
+                UserName=model.UserName,
+                LastName = p1.LastName,
+                FirstName = p1.FirstName,
                 Email = model.Email,
                 Person = p1
             };
-            bool isregister=idManger.CreateUser(registerUser, model.PassWord);
+            //bool isregister=
+            idManger.CreateUser(registerUser, model.PassWord);
             //idManger.AddUserToRole(registerUser.Id, "Admin");
-            if (isregister)
-            {
-                Login(new LoginViewModel()
-                {
-                    UserName = model.UserName,
-                    PassWord = model.PassWord
-                },returnUrl);
-            }
+            //if (isregister)
+            //{
+            //    Login(new LoginViewModel()
+            //    {
+            //        UserName = model.UserName,
+            //        PassWord = model.PassWord
+            //    },returnUrl);
+            //}
             return View();
         }
 
