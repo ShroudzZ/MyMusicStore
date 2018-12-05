@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MusicStore.ViewModels;
@@ -17,6 +18,38 @@ namespace MusicStore.Controllers
             View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterViewModel model, string returnUrl)
+        {
+            var idManger = new IdentityManager();
+            var p1 = new Person()
+            {
+                FirstName = model.MyName.Substring(0,1),
+                LastName = model.MyName.Substring(1,model.MyName.Length-1),
+                Email = model.Email,
+                Name = model.MyName,
+                CredentialsCode = "4545454545454545"
+            };
+            var registerUser = new ApplicationUser()
+            {
+                ChineseFullName = model.MyName,
+                Email = model.Email,
+                Person = p1
+            };
+            bool isregister=idManger.CreateUser(registerUser, model.PassWord);
+            //idManger.AddUserToRole(registerUser.Id, "Admin");
+            if (isregister)
+            {
+                Login(new LoginViewModel()
+                {
+                    UserName = model.UserName,
+                    PassWord = model.PassWord
+                },returnUrl);
+            }
+            return View();
+        }
+
         public ActionResult Login(string returnUrl = null)
         {
             if (string.IsNullOrEmpty(returnUrl))
@@ -32,24 +65,24 @@ namespace MusicStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model,string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var lStatus=new LoginUserStatus()
+                var lStatus = new LoginUserStatus()
                 {
                     IsLogin = false,
                     Message = "用户或密码错误！"
                 };
-                
+
                 var userManage = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MusicContext()));
                 var user = userManage.Find(model.UserName, model.PassWord);
-                if(user!=null)
+                if (user != null)
                 {
                     var roleName = "";
                     foreach (var role in user.Roles)
                     {
-                        roleName += ((ApplicationRole) _context.Roles.Find(role.RoleId)).DisplayName + ",";
+                        roleName += ((ApplicationRole)_context.Roles.Find(role.RoleId)).DisplayName + ",";
                     }
 
                     lStatus.IsLogin = true;
@@ -60,9 +93,9 @@ namespace MusicStore.Controllers
 
                     var lUModel = new LoginUserSessionModel()
                     {
-                        User=user,
-                        Person =user.Person,
-                        RoleName =roleName
+                        User = user,
+                        Person = user.Person,
+                        RoleName = roleName
                     };
 
                     Session["LoginUserSessionModel"] = lUModel;

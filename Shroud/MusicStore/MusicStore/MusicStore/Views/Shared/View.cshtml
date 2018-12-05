@@ -15,9 +15,13 @@
             user = loguser.User;
         }
     }
-    bool IsIndex = true;
+    bool IsIndex = true,Ispage=false;
     if (Session["Genreid"] == null) { IsIndex = true; }
     else { IsIndex = false; }
+    if (pagemodel!=null)
+    {
+        Ispage = true;
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -85,34 +89,37 @@
                     @RenderBody()
                 </div>
             </div>
-            <div class="row">
-                @Html.Pagination(pagemodel.PageInfo, (info) =>
-           {
-               var pagingString = "<ul class=\"pagination center-block\" style=\"width:165px;\">";
+            @if (Ispage)
+            {
+                <div class="row">
+                    @Html.Pagination(pagemodel.PageInfo, (info) =>
+                    {
+                        var pagingString = "<ul class=\"pagination center-block\" style=\"width:165px;\">";
 
-               for (var i = 1; i <= info.PageCount; i++)
-               {
-                   if (i == info.PageIndex)
-                   {
-                       pagingString += "<li><a href=\"#\">" + i + "</a></li>";
-                   }
-                   else
-                   {
-                       if (IsIndex)
-                       {
-                           pagingString += "<li><a  href=\"" + Url.Action("Index", new { pageIndex = i, pageSize = info.PageSize }) + "\">" + i + "</a></li>";
-                       }
-                       else
-                       {
-                           
-                           pagingString += "<li><a  href=\"" + Url.Action("GenrePage", new { id = Genreid, pageIndex = i, pageSize = info.PageSize }) + "\">" + i + "</a></li>";
-                       }
-                   }
-               }
-               pagingString += "</ul>";
-               return pagingString;
-           })
-            </div>
+                        for (var i = 1; i <= info.PageCount; i++)
+                        {
+                            if (i == info.PageIndex)
+                            {
+                                pagingString += "<li><a href=\"#\">" + i + "</a></li>";
+                            }
+                            else
+                            {
+                                if (IsIndex)
+                                {
+                                    pagingString += "<li><a  href=\"" + Url.Action("Index", new {pageIndex = i, pageSize = info.PageSize}) + "\">" + i + "</a></li>";
+                                }
+                                else
+                                {
+
+                                    pagingString += "<li><a  href=\"" + Url.Action("GenrePage", new {id = Genreid, pageIndex = i, pageSize = info.PageSize}) + "\">" + i + "</a></li>";
+                                }
+                            }
+                        }
+                        pagingString += "</ul>";
+                        return pagingString;
+                    })
+                </div>
+            }
             <footer id="footer" class="footer navbar-bottom ">
                 <div class="copy-right"><span>© 2017-2018</span> <a href="http://www.miibeian.gov.cn/" target="_blank">2017级软件技术1班</a></div>
             </footer>
