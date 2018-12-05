@@ -25,34 +25,39 @@ namespace MusicStore.Controllers
             var idManger = new IdentityManager();
             var p1 = new Person()
             {
-
                 FirstName = model.MyName.Substring(0, 1),
                 LastName = model.MyName.Substring(1, model.MyName.Length - 1),
+                Name = model.MyName,
+                CredentialsCode = "4545454545454545",
+                Birthday = DateTime.Parse("2000-1-1"),
+                MobileNumber = "1111111",
                 Email = model.Email,
-                Name = model.UserName,
-                CredentialsCode = "4545454545454541"
+                CreateDateTime = DateTime.Now,
+                TelephoneNumber = "123456",
+                Description = "",
+                UpdateTime = DateTime.Now,
+                InquiryPassword = "",
             };
-            var registerUser = new ApplicationUser()
+            var loginUser = new ApplicationUser()
             {
-                ChineseFullName = model.MyName,
-                UserName=model.UserName,
-                LastName = p1.LastName,
                 FirstName = p1.FirstName,
+                LastName = p1.LastName,
+                UserName = model.UserName,
                 Email = model.Email,
+                MobileNumber = "1111111",
+                ChineseFullName = model.MyName,
                 Person = p1
             };
-            //bool isregister=
-            idManger.CreateUser(registerUser, model.PassWord);
-            //idManger.AddUserToRole(registerUser.Id, "Admin");
-            //if (isregister)
-            //{
-            //    Login(new LoginViewModel()
-            //    {
-            //        UserName = model.UserName,
-            //        PassWord = model.PassWord
-            //    },returnUrl);
-            //}
-            return View();
+
+            bool isregister = idManger.CreateUser(loginUser, model.PassWord) && idManger.AddUserToRole(loginUser.Id, "User");
+
+
+            if (isregister)
+            {
+                return Login(returnUrl);
+            }
+            else
+                return View();
         }
 
         public ActionResult Login(string returnUrl = null)

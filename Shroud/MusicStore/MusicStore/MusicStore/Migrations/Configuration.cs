@@ -23,9 +23,9 @@ namespace MusicStore.Migrations
             //context.Database.ExecuteSqlCommand("delete Genres");
             //GenreSeed.Seed();
             //ArtistSeed.Seed();
-            AlbumSeed.Seed();
+            //AlbumSeed.Seed();
             //UserAndRoleSeed.AddRoles();
-            //UserAndRoleSeed.AddUsers();
+            UserAndRoleSeed.AddUsers();
 
 
         }
