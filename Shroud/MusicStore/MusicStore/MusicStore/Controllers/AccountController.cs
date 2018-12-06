@@ -20,44 +20,43 @@ namespace MusicStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterViewModel model, string returnUrl)
+        public ActionResult Register(RegisterViewModel model)
         {
-            var idManger = new IdentityManager();
-            var p1 = new Person()
+            if ((ModelState.IsValid))
             {
-                FirstName = model.MyName.Substring(0, 1),
-                LastName = model.MyName.Substring(1, model.MyName.Length - 1),
-                Name = model.MyName,
-                CredentialsCode = "4545454545454545",
-                Birthday = DateTime.Parse("2000-1-1"),
-                MobileNumber = "1111111",
-                Email = model.Email,
-                CreateDateTime = DateTime.Now,
-                TelephoneNumber = "123456",
-                Description = "",
-                UpdateTime = DateTime.Now,
-                InquiryPassword = "",
-            };
-            var loginUser = new ApplicationUser()
-            {
-                FirstName = p1.FirstName,
-                LastName = p1.LastName,
-                UserName = model.UserName,
-                Email = model.Email,
-                MobileNumber = "1111111",
-                ChineseFullName = model.MyName,
-                Person = p1
-            };
-
-            bool isregister = idManger.CreateUser(loginUser, model.PassWord) && idManger.AddUserToRole(loginUser.Id, "User");
-
-
-            if (isregister)
-            {
-                return Login(returnUrl);
+                var idManger = new IdentityManager();
+                var p1 = new Person()
+                {
+                    FirstName = model.MyName.Substring(0, 1),
+                    LastName = model.MyName.Substring(1, model.MyName.Length - 1),
+                    Name = model.MyName,
+                    CredentialsCode = "4545454545454545",
+                    Birthday = DateTime.Parse("2000-1-1"),
+                    MobileNumber = "1111111",
+                    Email = model.Email,
+                    CreateDateTime = DateTime.Now,
+                    TelephoneNumber = "123456",
+                    Description = "",
+                    UpdateTime = DateTime.Now,
+                    InquiryPassword = "",
+                };
+                var loginUser = new ApplicationUser()
+                {
+                    FirstName = p1.FirstName,
+                    LastName = p1.LastName,
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    MobileNumber = "1111111",
+                    ChineseFullName = model.MyName,
+                    Person = p1
+                };
+                bool isregister = idManger.CreateUser(loginUser, model.PassWord) && idManger.AddUserToRole(loginUser.Id, "User");
+                if (isregister)
+                {
+                    return Content("<script>location.href='" + @Url.Action("index", "Home") + "'; alert('注册成功')</script>");
+                }
             }
-            else
-                return View();
+            return View();
         }
 
         public ActionResult Login(string returnUrl = null)
@@ -128,6 +127,45 @@ namespace MusicStore.Controllers
             else
                 ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        public ActionResult LoginOut()
+        {
+            Session.Remove("LoginUserSessionModel");
+            Session.Remove("loginStatus");
+            return RedirectToAction("index", "Home");
+        }
+
+        public ActionResult ChangePassword()
+        {
+            if (Session["LoginUserSessionModel"]==null)
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            var loginuser = Session["LoginUserSessionModel"] as LoginUserSessionModel;
+            var userManage = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MusicContext()));
+            var user = userManage.Find(loginuser.User.UserName, model.PassWord);
+            if (user!=null)
+            {
+                userManage.ChangePassword(user.Id, model.PassWord, model.NewPassWord);
+                user = userManage.Find(loginuser.User.UserName, model.NewPassWord);
+                if (user!=null)
+                {
+                    return Content("<script>location.href='" + @Url.Action("index", "Home") + "'; alert('修改密码成功')</script>");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("","原密码错误");
+                return View(model);
+            }
+            return View(model);
         }
     }
 }
