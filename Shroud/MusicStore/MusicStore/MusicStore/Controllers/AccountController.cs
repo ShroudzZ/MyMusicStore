@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using MusicStore.ViewModels;
 using MusicStoreEntity;
 using MusicStoreEntity.UserAndRole;
+using MusicStore.Helper;
 
 namespace MusicStore.Controllers
 {
@@ -88,6 +89,12 @@ namespace MusicStore.Controllers
                 var user = userManage.Find(model.UserName, model.PassWord);
                 if (user != null)
                 {
+                    if(model.VerificationCode!=Session["ValidateCode"].ToString())
+                    {
+                        lStatus.Message = "验证码错误";
+                        ViewBag.LoginUserStatus = lStatus;
+                        return View(model);
+                    }
                     var roleName = "";
                     foreach (var role in user.Roles)
                     {
@@ -119,7 +126,7 @@ namespace MusicStore.Controllers
                     else
                         ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginUserStatus = lStatus;
-                    return View();
+                    return View(model);
                 }
             }
             if (string.IsNullOrEmpty(returnUrl))
@@ -166,6 +173,20 @@ namespace MusicStore.Controllers
                 return View(model);
             }
             return View(model);
+        }
+
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetValidateCode()
+        {
+            ValidateCode vCode = new ValidateCode();
+            string code = vCode.CreateValidateCode(5);
+            Session["ValidateCode"] = code;
+            byte[] bytes = vCode.CreateValidateGraphic(code);
+            return File(bytes, @"image/jpeg");
         }
     }
 }

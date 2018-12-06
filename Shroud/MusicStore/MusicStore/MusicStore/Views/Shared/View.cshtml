@@ -33,6 +33,8 @@
     @*绑定样式库*@
     @Styles.Render("~/Content/css")
     @*绑定脚本*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 
 </head>
 <body>
@@ -125,8 +127,6 @@
             </footer>
         </div>
     </nav>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>
 @*继承次布局页的页面执行脚本的位置*@

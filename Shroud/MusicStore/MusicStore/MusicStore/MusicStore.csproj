@@ -143,6 +143,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\PageHelper.cs" />
+    <Compile Include="Helper\ValidateCode.cs" />
     <Compile Include="Migrations\AlbumSeed.cs" />
     <Compile Include="Migrations\ArtistSeed.cs" />
     <Compile Include="Migrations\Configuration.cs" />

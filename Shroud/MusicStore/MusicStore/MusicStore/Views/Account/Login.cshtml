@@ -11,8 +11,8 @@
 }
 
 <h2>用户登录</h2>
-<p>如果没有账号请点 @Html.ActionLink("这里","Register")</p>
-@using (Html.BeginForm("Login","Account",new {returnUrl=ViewBag.ReturnUrl },FormMethod.Post))
+<p>如果没有账号请点 @Html.ActionLink("这里", "Register")</p>
+@using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
 {
     @Html.AntiForgeryToken();
     <div>
@@ -20,18 +20,31 @@
             <legend>用户信息</legend>
             @Html.LabelFor(x => x.UserName)
             <div>
-                @Html.TextBoxFor(x => x.UserName, new {placeholder = "请输入用户名"})
+                @Html.TextBoxFor(x => x.UserName, new { placeholder = "请输入用户名" })
                 @Html.ValidationMessageFor(x => x.UserName)
             </div>
             @Html.LabelFor(x => x.PassWord)
             <div>
-                @Html.PasswordFor(x => x.PassWord, new {placeholder = "请输入密码"})
+                @Html.PasswordFor(x => x.PassWord, new { placeholder = "请输入密码" })
                 @Html.ValidationMessageFor(x => x.PassWord)
+            </div>
+            @Html.LabelFor(x => x.VerificationCode)
+            <div>
+                @Html.TextBoxFor(x => x.VerificationCode, new { placeholder = "请输入验证码" })
+                <img id="code" src="@Url.Action("GetValidateCode")" />
+                @Html.ValidationMessageFor(x => x.VerificationCode)
             </div>
             <p class="text-danger">
                 @msg
             </p>
-            <input type="submit" class="btn btn-primary" value="登录"/>
+            <input type="submit" class="btn btn-primary" value="登录" />
         </fieldset>
     </div>
 }
+<script type="text/javascript">
+    $(function () {
+        $("#code").bind("click", function () {
+            this.src = "GetValidateCode?time=" + (new Date()).getTime();
+        });
+    });
+</script>
