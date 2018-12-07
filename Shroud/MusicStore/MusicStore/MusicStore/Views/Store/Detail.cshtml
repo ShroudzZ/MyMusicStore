@@ -11,3 +11,28 @@
 
 <p>价格：￥@Model.Price</p>
 <p>出版时间：@Model.PublisherDate.ToString("yyyy年MM月dd日")</p>
+<a class="btn btn-primary btn-sm" id="add">添加到购物车</a>
+
+<script>
+    $('#add').click(function () {
+        $.ajax({
+            type: 'post',
+            async: true,
+            url: '../../Cart/AddCart',
+            data: { id: "@Model.ID" },
+            dataType: 'json',
+            success:function(data) {
+                if (data == "nologin") {
+                    location.href =
+                        "@Url.Action("login","Account",new {returnUrl=Url.Action("Detail","Store",new {id=Model.ID})})";
+                } else {
+                    setTimeout(function() {
+                            location.reload();
+                        },
+                        1000);
+                }
+            }
+        })
+
+    })
+</script>

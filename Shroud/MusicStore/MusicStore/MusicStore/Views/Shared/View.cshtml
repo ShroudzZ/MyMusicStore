@@ -8,13 +8,21 @@
     var pagemodel = Session["PageModel"] as PageViewModel;
     var Genreid = Session["Genreid"];
     ApplicationUser user = null;
+    var carts = new List<Cart>();
+
     if (loguser != null)
     {
         if (loguser.User != null)
         {
             user = loguser.User;
+            carts = new MusicContext().Carts.Where(x => x.Person.ID == user.Person.ID).ToList();
         }
+
     }
+    
+
+
+
     bool IsIndex = true,Ispage=false;
     if (Session["Genreid"] == null) { IsIndex = true; }
     else { IsIndex = false; }
@@ -68,7 +76,7 @@
                                 管理员 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">购物车(1)</a></li>
+                                <li><a href="@Url.Action("Index","Cart")">购物车(@carts.Count)</a></li>
                                 <li><a href="#">我的订单</a></li>
                                 <li><a href="@Url.Action("changepassword","Account")">修改密码</a></li>
                                 <li><a href="@Url.Action("LoginOut","Account")">注销</a></li>

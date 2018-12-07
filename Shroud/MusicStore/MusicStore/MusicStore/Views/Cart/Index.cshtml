@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MusicStoreEntity.Cart>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+
+<h2>购物车信息</h2>
+<table class="table table-striped">
+    <caption>条纹表格布局</caption>
+    <thead>
+    <tr>
+        <th>名称</th>
+        <th>价格</th>
+        <th>数量</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Album.Title</td>
+            <td>@item.Album.Price</td>
+            <td>@item.Count</td>
+            <td><a class="btn btn-danger" id="deleteCart" data-id="@item.ID" onclick="Del">我不喜欢了</a></td>
+        </tr>
+       
+    }
+    </tbody>
+</table>
+<script>
+   function Del() {
+       var id = this.data('id');
+       console.log(id);
+        $.ajax({
+            type: 'post',
+            async: true,
+            url: '../../Cart/DelCart',
+            data: { id: id },
+            dataType: 'json',
+            success:function(data) {
+                if (data == "false") {
+                    alert('删除失败,请重试');
+                } else {
+                    setTimeout(function() {
+                            location.reload();
+                        },
+                        1000);
+                }
+            }
+        })
+    }
+</script>
+
