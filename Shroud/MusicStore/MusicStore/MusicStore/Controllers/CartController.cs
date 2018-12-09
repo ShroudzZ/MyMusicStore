@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,8 +17,18 @@ namespace MusicStore.Controllers
         public ActionResult Index()
         {
             var p = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
+            if (p==null)
+            {
+                return RedirectToAction("login", "Account", new {returnUrl = Url.Action("Index", "Home")});
+            }
             var list = _context.Carts.Where(x => x.Person.ID == p.ID).ToList();
-            return View(list);
+            decimal? allPrice = (from item in list select item.Count * item.Album.Price).Sum();
+            var cartVM = new ShoppingCartViewModel()
+            {
+                CartList = list,
+                AllPrice = allPrice ?? decimal.Zero
+            };
+            return View(cartVM);
         }
 
         public ActionResult AddCart(Guid id)
@@ -53,12 +64,22 @@ namespace MusicStore.Controllers
 
             return Json(msg);
         }
-
+        [HttpPost]
         public ActionResult DelCart(Guid id)
         {
-            _context.Carts.Remove(_context.Carts.Find(id));
-            _context.SaveChanges();
-            if (_context.Carts.SingleOrDefault(x=>x.ID==id)==null)
+            var cart = _context.Carts.Find(id);
+            var count = cart.Count;
+            if (cart.Count>1)
+            {
+                cart.Count -= 1;
+                _context.SaveChanges();
+            }
+            else
+            {
+                _context.Carts.Remove(cart);
+                _context.SaveChanges();
+            }
+            if (_context.Carts.SingleOrDefault(x=>x.ID==id)==null||cart.Count!=count)
             {
                 return Json("true");
             }

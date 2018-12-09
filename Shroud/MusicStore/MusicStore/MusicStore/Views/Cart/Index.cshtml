@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicStoreEntity.Cart>
+﻿@model MusicStore.ViewModels.ShoppingCartViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/View.cshtml";
@@ -16,39 +16,48 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.CartList)
     {
         <tr>
-            <td>@item.Album.Title</td>
+            <td>@Html.ActionLink(item.Album.Title,"Detail","Store",new {id=item.Album.ID})</td>
             <td>@item.Album.Price</td>
             <td>@item.Count</td>
-            <td><a class="btn btn-danger" id="deleteCart" data-id="@item.ID" onclick="Del">我不喜欢了</a></td>
+            <td><a class="btn btn-danger" id="deleteCart" data-id="@item.ID" href="javascript:;" >我不喜欢了</a></td>
         </tr>
        
     }
+    <tr>
+        <td></td>
+        <td></td>
+        <td>总价:</td>
+        <td>@Model.AllPrice</td>
+    </tr>
     </tbody>
 </table>
 <script>
-   function Del() {
-       var id = this.data('id');
-       console.log(id);
-        $.ajax({
-            type: 'post',
-            async: true,
-            url: '../../Cart/DelCart',
-            data: { id: id },
-            dataType: 'json',
-            success:function(data) {
-                if (data == "false") {
-                    alert('删除失败,请重试');
-                } else {
-                    setTimeout(function() {
-                            location.reload();
-                        },
-                        1000);
+    var itemsA = document.getElementsByClassName('btn-danger');
+    for (var i = 0; i < itemsA.length; i++) {
+        itemsA[i].addEventListener('click',function() {
+            var id = this.dataset.id
+            console.log(id);
+            $.ajax({
+                type: 'post',
+                async: true,
+                url: '../../Cart/DelCart',
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    if (data == "false") {
+                        alert('删除失败,请重试');
+                    } else {
+                        setTimeout(function () {
+                                location.reload();
+                            },
+                            1000);
+                    }
                 }
-            }
-        })
+            })
+        });
     }
 </script>
 
