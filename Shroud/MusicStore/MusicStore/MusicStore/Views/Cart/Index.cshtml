@@ -5,8 +5,9 @@
 }
 
 <h2>购物车信息</h2>
+<a class="btn btn-primary" href="@Url.Action("Buy","Order")">立即购买</a>
 <table class="table table-striped">
-    <caption>条纹表格布局</caption>
+    <caption>购物车信息</caption>
     <thead>
         <tr>
             <th>名称</th>
@@ -20,8 +21,8 @@
         {
             <tr>
                 <td>@Html.ActionLink(item.Album.Title, "Detail", "Store", new { id = item.Album.ID })</td>
-                <td>@item.Album.Price</td>
-                <td ><a href="javascript:;" class="glyphicon glyphicon-plus" data-id="@item.ID"></a>&nbsp;&nbsp;@item.Count&nbsp;&nbsp;<a href="javascript:;" class="glyphicon glyphicon-minus" data-id="@item.ID"></a></td>
+                <td>@item.Album.Price.ToString("C")</td>
+                <td ><a href="javascript:;" class="glyphicon glyphicon-minus" data-id="@item.ID"></a>&nbsp;&nbsp;@item.Count&nbsp;&nbsp;<a href="javascript:;" class="glyphicon glyphicon-plus" data-id="@item.ID"></a></td>
                 <td><a class="btn btn-danger" id="deleteCart" data-id="@item.ID" href="javascript:;">我不喜欢了</a></td>
             </tr>
         }
