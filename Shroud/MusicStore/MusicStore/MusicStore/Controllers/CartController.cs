@@ -16,11 +16,12 @@ namespace MusicStore.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            var p = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
-            if (p==null)
+            if ((Session["LoginUserSessionModel"] as LoginUserSessionModel)==null)
             {
-                return RedirectToAction("login", "Account", new {returnUrl = Url.Action("Index", "Home")});
+                return RedirectToAction("login", "Account");
             }
+            var p = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
+           
             var list = _context.Carts.Where(x => x.Person.ID == p.ID).ToList();
             decimal? allPrice = (from item in list select item.Count * item.Album.Price).Sum();
             var cartVM = new ShoppingCartViewModel()
