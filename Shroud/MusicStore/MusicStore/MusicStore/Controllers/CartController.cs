@@ -16,12 +16,12 @@ namespace MusicStore.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            if ((Session["LoginUserSessionModel"] as LoginUserSessionModel)==null)
+            if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
             {
                 return RedirectToAction("login", "Account");
             }
             var p = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
-           
+
             var list = _context.Carts.Where(x => x.Person.ID == p.ID).ToList();
             decimal? allPrice = (from item in list select item.Count * item.Album.Price).Sum();
             var cartVM = new ShoppingCartViewModel()
@@ -68,26 +68,39 @@ namespace MusicStore.Controllers
         [HttpPost]
         public ActionResult DelCart(Guid id)
         {
+            if (Session["LoginUserSessionModel"] == null)
+                return RedirectToAction("login", "Account", new { returnUrl = Url.Action("index", "ShoppingCart") });
+            var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
+
             var cart = _context.Carts.Find(id);
             var count = cart.Count;
-            if (cart.Count>1)
-            {
-                cart.Count -= 1;
-                _context.SaveChanges();
-            }
+            if (cart.Count > 1) cart.Count -= 1;
             else
             {
                 _context.Carts.Remove(cart);
                 _context.SaveChanges();
             }
-            if (_context.Carts.SingleOrDefault(x=>x.ID==id)==null||cart.Count!=count)
+            var carts = _context.Carts.Where(x => x.Person.ID == person.ID).ToList();
+            var totalPrice = (from item in carts select item.Count * item.Album.Price).Sum();
+            var htmlString = "";
+            foreach (var item in carts)
             {
-                return Json("true");
+                htmlString += "<tr>";
+                htmlString += "<td><a href='../store/detail/" + item.ID + "'>" + item.Album.Title + "</a></td>";
+                htmlString += "<td>" + item.Album.Price.ToString("C") + "</td>";
+                htmlString += "<td>" + item.Count + "</td>";
+                htmlString += "<td><a href=\"#\" data-id=" + item.ID + ";\">我不喜欢了</a></td></tr>";
             }
-            else
-            {
-                return Json("false");
-            }
+            htmlString += "<tr><td ></td><td></td><td>总价</td><td>" + totalPrice.ToString("C") + "</td ></tr>";
+
+            return Json(htmlString);
         }
+
+        [HttpPost]
+        public ActionResult ConfirmCount(Guid id)
+        {
+            return Json("");
+        }
+
     }
 }

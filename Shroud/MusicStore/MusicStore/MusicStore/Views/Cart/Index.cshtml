@@ -8,38 +8,38 @@
 <table class="table table-striped">
     <caption>条纹表格布局</caption>
     <thead>
-    <tr>
-        <th>名称</th>
-        <th>价格</th>
-        <th>数量</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.CartList)
-    {
         <tr>
-            <td>@Html.ActionLink(item.Album.Title,"Detail","Store",new {id=item.Album.ID})</td>
-            <td>@item.Album.Price</td>
-            <td>@item.Count</td>
-            <td><a class="btn btn-danger" id="deleteCart" data-id="@item.ID" href="javascript:;" >我不喜欢了</a></td>
+            <th>名称</th>
+            <th>价格</th>
+            <th>数量</th>
+            <th>操作</th>
         </tr>
-       
-    }
-    <tr>
-        <td></td>
-        <td></td>
-        <td>总价:</td>
-        <td>@Model.AllPrice</td>
-    </tr>
+    </thead>
+    <tbody id="tbCart">
+        @foreach (var item in Model.CartList)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.Album.Title, "Detail", "Store", new { id = item.Album.ID })</td>
+                <td>@item.Album.Price</td>
+                <td ><a href="javascript:;" class="glyphicon glyphicon-plus" data-id="@item.ID"></a>&nbsp;&nbsp;@item.Count&nbsp;&nbsp;<a href="javascript:;" class="glyphicon glyphicon-minus" data-id="@item.ID"></a></td>
+                <td><a class="btn btn-danger" id="deleteCart" data-id="@item.ID" href="javascript:;">我不喜欢了</a></td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>总价:</td>
+            <td>@Model.AllPrice</td>
+        </tr>
     </tbody>
 </table>
 <script>
     var itemsA = document.getElementsByClassName('btn-danger');
+    var addA = document.getElementsByClassName('glyphicon-plus');
+    var del = document.getElementsByClassName('glyphicon-minus');
     for (var i = 0; i < itemsA.length; i++) {
-        itemsA[i].addEventListener('click',function() {
-            var id = this.dataset.id
-            console.log(id);
+        itemsA[i].addEventListener('click', function () {
+            var id = this.dataset.id;
             $.ajax({
                 type: 'post',
                 async: true,
@@ -47,17 +47,28 @@
                 data: { id: id },
                 dataType: 'json',
                 success: function (data) {
-                    if (data == "false") {
-                        alert('删除失败,请重试');
-                    } else {
-                        setTimeout(function () {
-                                location.reload();
-                            },
-                            1000);
-                    }
+                    $("#tbCart").html(data);
                 }
             })
         });
+    }
+
+
+    for (var i = 0; i < addA.length; i++) {
+        addA[i].addEventListener('click', function () {
+            console.log(this.dataset.id)
+            var id = this.dataset;
+            $.ajax({
+                type: 'post',
+                async: true,
+                url: '../../Cart/DelCart',
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    $("#tbCart").html(data);
+                }
+            })
+        })
     }
 </script>
 
