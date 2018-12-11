@@ -51,7 +51,7 @@ namespace MusicStore.Controllers
                 return RedirectToAction("login", "Account", new { returnUrl = Url.Action("index", "ShoppingCart") });
             var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
 
-            var cart = (_context.Carts.Find(id));
+            var cart = (_context.Carts.SingleOrDefault(x=>x.Person.ID==person.ID&&x.Album.ID==id));
             var count = cart.Count;
             if (cart.Count > 1) cart.Count -= 1;
             else
@@ -67,10 +67,10 @@ namespace MusicStore.Controllers
                 htmlString += "<tr>";
                 htmlString += "<td><a href='../store/detail/" + item.ID + "'>" + item.Album.Title + "</a></td>";
                 htmlString += "<td>" + item.Album.Price.ToString("C") + "</td>";
-                htmlString += "<td ><a href=\"javascript:; \" class=\"glyphicon glyphicon-minus\" data-id=" + item.ID +
-                              "></a>&nbsp;&nbsp;" + @item.Count + "&nbsp;&nbsp;<a href=\"javascript:; \" class=\"glyphicon glyphicon-plus\" data-id=" +
-                              @item.ID + "></a></td>";
-                htmlString += "<td><a class=\"btn btn-danger\" href=\"#\" data-id=" + item.ID + ";\">我不喜欢了</a></td></tr>";
+                htmlString += "<td ><a href=\"javascript:; \" class=\"glyphicon glyphicon-minus\" data-id=" + item.Album.ID +
+                              "></a>&nbsp;&nbsp;" + item.Count + "&nbsp;&nbsp;<a href=\"javascript:; \" class=\"glyphicon glyphicon-plus\" data-id=" +
+                              item.Album.ID + "></a></td>";
+                htmlString += "<td><a class=\"btn btn-danger\" href=\"#\" data-id=" + item.Album.ID + ";\">我不喜欢了</a></td></tr>";
             }
             htmlString += "<tr><td ></td><td></td><td>总价</td><td>" + totalPrice.ToString("C") + "</td ></tr>";
 
