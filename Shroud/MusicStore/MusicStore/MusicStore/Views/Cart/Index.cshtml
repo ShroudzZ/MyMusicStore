@@ -38,6 +38,7 @@
     var itemsA = document.getElementsByClassName('btn-danger');
     var addA = document.getElementsByClassName('glyphicon-plus');
     var del = document.getElementsByClassName('glyphicon-minus');
+    
     for (var i = 0; i < itemsA.length; i++) {
         itemsA[i].addEventListener('click', function () {
             var id = this.dataset.id;
@@ -51,6 +52,7 @@
                     $("#tbCart").html(data);
                 }
             })
+           itemsA = document.getElementsByClassName('btn-danger');
         });
     }
 

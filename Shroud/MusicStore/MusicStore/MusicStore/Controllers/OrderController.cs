@@ -40,10 +40,37 @@ namespace MusicStore.Controllers
                 };
                 order.OrderDetails.Add(detail);
             }
-            
+
             Session["Order"] = order;
             return View(order);
         }
+
+        [HttpPost]
+        public ActionResult RemoveDetailT(Guid id)
+        {
+            if (Session["Order"] == null) return RedirectToAction("Buy");
+
+            var order = Session["Order"] as Order;
+            var deleteDetail = order.OrderDetails.SingleOrDefault(x => x.ID == id);
+            order.OrderDetails.Remove(deleteDetail);
+
+            var orderdetails = order.OrderDetails;
+            order.TotalPrice = (from item in order.OrderDetails select item.Count * item.Album.Price).Sum();
+            var htmlString = "";
+            Session["Order"] = order;
+            foreach (var item in orderdetails)
+            {
+                htmlString += "<tr>";
+                htmlString += "<td><a href='../store/detail/" + item.ID + "'>" + item.Album.Title + "</a></td>";
+                htmlString += "<td>" + item.Album.Price.ToString("C") + "</td>";
+                htmlString += "<td >" + item.Count + "</td>";
+                htmlString += "<td><a class=\"btn btn-danger\" href=\"javascript:;\" onclick='Del(" + item.ID + ")' \">我不喜欢了</a></td></tr>";
+            }
+            htmlString += "<tr><td ></td><td></td><td>总价</td><td>" + order.TotalPrice.ToString("C") + "</td ></tr>";
+            return Json(htmlString);
+        }
+
+
         [HttpPost]
         public ActionResult RemoveDetail(Guid id)
         {
@@ -51,7 +78,7 @@ namespace MusicStore.Controllers
                 return RedirectToAction("login", "Account", new { returnUrl = Url.Action("index", "ShoppingCart") });
             var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
 
-            var cart = (_context.Carts.SingleOrDefault(x=>x.Person.ID==person.ID&&x.Album.ID==id));
+            var cart = (_context.Carts.SingleOrDefault(x => x.Person.ID == person.ID && x.Album.ID == id));
             var count = cart.Count;
             if (cart.Count > 1) cart.Count -= 1;
             else
@@ -80,11 +107,16 @@ namespace MusicStore.Controllers
         [HttpPost]
         public ActionResult Buy(Order oder)
         {
-            if ((ModelState.IsValid))
+            if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
+                return RedirectToAction("login", "Account");
+            var p = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
+            oder.OrderDetails = ((Order)Session["Order"]).OrderDetails;
+            if (ModelState.IsValid)
             {
 
-            }
+                _context.Orders.Add(oder);
 
+            }
             return View();
         }
         // GET: Order

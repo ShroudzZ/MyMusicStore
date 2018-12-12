@@ -24,15 +24,24 @@
                     </tr>
                 </thead>
                 <tbody id="tbCart">
-                    @foreach (var item in Model.OrderDetails)
+                @*@foreach (var item in Model.OrderDetails)
                 {
-                        <tr>
-                            <td>@Html.ActionLink(item.Album.Title, "Detail", "Store", new { id = item.Album.ID })</td>
-                            <td>@item.Album.Price</td>
-                            <td><a href="javascript:;" class="glyphicon glyphicon-plus" data-id="@item.Album.ID"></a>&nbsp;&nbsp;@item.Count&nbsp;&nbsp;<a href="javascript:;" class="glyphicon glyphicon-minus" data-id="@item.Album.ID"></a></td>
-                            <td><a class="btn btn-danger" id="deleteCart" data-id="@item.Album.ID" href="javascript:;">我不喜欢了</a></td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@Html.ActionLink(item.Album.Title, "Detail", "Store", new { id = item.Album.ID })</td>
+                        <td>@item.Album.Price</td>
+                        <td><a href="javascript:;" class="glyphicon glyphicon-plus" data-id="@item.Album.ID"></a>&nbsp;&nbsp;@item.Count&nbsp;&nbsp;<a href="javascript:;" class="glyphicon glyphicon-minus" data-id="@item.Album.ID"></a></td>
+                        <td><a class="btn btn-danger" id="deleteCart" data-id="@item.Album.ID" href="javascript:;">我不喜欢了</a></td>
+                    </tr>
+                }*@
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(item.Album.Title, "Detail", "Store", new { id = item.Album.ID })</td>
+                        <td>@item.Album.Price</td>
+                        <td><a href="javascript:;" class="glyphicon glyphicon-plus" data-id="@item.ID"></a>&nbsp;&nbsp;@item.Count&nbsp;&nbsp;<a href="javascript:;" class="glyphicon glyphicon-minus" data-id="@item.ID"></a></td>
+                        <td><a class="btn btn-danger" onclick="Del('@item.ID')" href="javascript:;">我不喜欢了</a></td>
+                    </tr>
+                }
                     <tr>
                         <td></td>
                         <td></td>
@@ -46,42 +55,54 @@
     </div>
 }
 <script>
-    var itemsA = document.getElementsByClassName('btn-danger');
-    var addA = document.getElementsByClassName('glyphicon-plus');
-    var del = document.getElementsByClassName('glyphicon-minus');
-    for (var i = 0; i < itemsA.length; i++) {
-        itemsA[i].addEventListener('click', function () {
-            var id = this.dataset.id;
-            $.ajax({
-                type: 'post',
-                async: true,
-                url: '../../Order/RemoveDetail',
-                data: { id: id },
-                dataType: 'json',
-                success: function (data) {
-                    $("#tbCart").html(data);
-                }
-            })
-        });
-    }
-
-
-    for (var i = 0; i < addA.length; i++) {
-        addA[i].addEventListener('click', function () {
-            console.log(this.dataset.id)
-            var id = this.dataset;
-            $.ajax({
-                type: 'post',
-                async: true,
-                url: '../../Cart/DelCart',
-                data: { id: id },
-                dataType: 'json',
-                success: function (data) {
-                    $("#tbCart").html(data);
-                }
-            })
+    function Del(id) {
+        $.ajax({
+            type: 'post',
+            async: true,
+            url: '../../Order/RemoveDetailT',
+            data: { id: id },
+            dataType: 'json',
+            success: function (data) {
+                $("#tbCart").html(data);
+            }
         })
     }
+    //var itemsA = document.getElementsByClassName('btn-danger');
+    //var addA = document.getElementsByClassName('glyphicon-plus');
+    //var del = document.getElementsByClassName('glyphicon-minus');
+    //for (var i = 0; i < itemsA.length; i++) {
+    //    itemsA[i].addEventListener('click', function () {
+    //        var id = this.dataset.id;
+    //        $.ajax({
+    //            type: 'post',
+    //            async: true,
+    //            url: '../../Order/RemoveDetailT',
+    //            data: { id: id },
+    //            dataType: 'json',
+    //            success: function (data) {
+    //                $("#tbCart").html(data);
+    //            }
+    //        })
+    //    });
+    //}
+
+    //for (var i = 0; i < addA.length; i++) {
+    //    addA[i].addEventListener('click', function () {
+    //        console.log(this.dataset.id)
+    //        var id = this.dataset;
+    //        $.ajax({
+    //            type: 'post',
+    //            async: true,
+    //            url: '../../Cart/DelCart',
+    //            data: { id: id },
+    //            dataType: 'json',
+    //            success: function (data) {
+    //                $("#tbCart").html(data);
+    //            }
+    //        })
+    //    })
+    //}
+
 </script>
 
 
