@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MusicStore.Helper;
 using MusicStoreEntity;
 using MusicStore.ViewModels;
 
@@ -75,7 +77,7 @@ namespace MusicStore.Controllers
         public ActionResult RemoveDetail(Guid id)
         {
             if (Session["LoginUserSessionModel"] == null)
-                return RedirectToAction("login", "Account", new { returnUrl = Url.Action("index", "ShoppingCart") });
+                return RedirectToAction("login", "Account", new { returnUrl = Url.Action("index", "Cart") });
             var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
 
             var cart = (_context.Carts.SingleOrDefault(x => x.Person.ID == person.ID && x.Album.ID == id));
@@ -105,19 +107,50 @@ namespace MusicStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Buy(Order oder)
+        public ActionResult Buy(Order order)
         {
             if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
                 return RedirectToAction("login", "Account");
             var p = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
-            oder.OrderDetails = ((Order)Session["Order"]).OrderDetails;
+            order.OrderDetails = new List<OrderDetail>();
+            order.Person = _context.Persons.Find(p.ID);
+            var details = ((Order)Session["Order"]).OrderDetails;
+            foreach (var item in details)
+            {
+                item.Album = _context.Albums.Find(item.Album.ID);
+                order.OrderDetails.Add(item);
+            }
+
+            order.TotalPrice = (from item in order.OrderDetails select item.Count * item.Album.Price).Sum();
             if (ModelState.IsValid)
             {
+                LockedHelp.ThreadLocked(order.ID);
 
-                _context.Orders.Add(oder);
+                try
+                {
+                    _context.Orders.Add(order);
+                    _context.SaveChanges();
+                    var carts = _context.Carts.Where(x => x.Person.ID == p.ID);
+                    foreach (var item in details)
+                    {
+                        _context.Carts.Remove(carts.SingleOrDefault(x=>x.Album.ID==item.ID));
+                    }
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
 
+                }
+                finally
+                {
+                    LockedHelp.ThreadUnLocked(order.ID);
+                }
+
+                return RedirectToAction("Alipay", "Pay", new {id = order.ID});
             }
+
             return View();
+
         }
         // GET: Order
         public ActionResult Index()
