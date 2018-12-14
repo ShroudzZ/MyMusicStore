@@ -1,0 +1,53 @@
+﻿@using MusicStoreEntity
+@model IEnumerable<MusicStoreEntity.Order>
+@{
+    ViewBag.Title = "CartDetail";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+
+@using (Html.BeginForm("", "", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+    <div>
+        <fieldset>
+            <legend>用户信息</legend>
+            <table class="table table-striped">
+                <caption>我的订单</caption>
+                <thead>
+                    <tr>
+                        <th>订单摘要</th>
+                        <th>明细</th>
+                        <th>总价</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody id="tbCart">
+                @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>
+                                @item.TradeNo<br />
+                                收件人:@item.AddressPerson<br />
+                                收件地址:@item.Address<br />
+                                电话:@item.Phone<br />
+                            </td>
+                            <td>
+                                @foreach (var o in item.OrderDetails)
+                                {
+                                    <span>@o.Album.Title ,</span> <span>@o.Count 张</span><br/>
+                                }
+                            </td>
+                            <td>
+                                @item.TotalPrice.ToString("C")
+                            </td>
+                            <td>
+                                @item.EnumOrderStatus <button class="btn btn-primary">立即购买</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+}
+

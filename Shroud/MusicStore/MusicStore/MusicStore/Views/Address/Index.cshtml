@@ -1,0 +1,46 @@
+﻿@model MusicStore.ViewModels.AddressViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+
+
+<fieldset>
+@using (Html.BeginForm("CreateAddress", "Address", FormMethod.Post, new { }))
+{
+    <legend>添加收货地址</legend>
+    @Html.EditorForModel()
+    <p style="margin-top: 10px"><input type="submit" class="btn btn-primary" value="添加" /></p>
+}
+    <table class="table table-condensed">
+        <caption>收货地址列表</caption>
+        <thead>
+        <tr>
+            <th>收货人</th>
+            <th>收货地址</th>
+            <th>联系电话</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Addresslist)
+        {
+
+            <tr>
+                <td>@item.AddressPerson</td>
+                <td>@item.Address</td>
+                <td>@item.Phone</td>
+                <td><button type="button" class="btn btn-warning" onclick="Edit(@item.ID)">编辑</button></td>
+            </tr>
+        }
+
+        </tbody>
+    </table>
+</fieldset>
+
+<script>
+    function Edit(id) {
+
+    }
+
+</script>

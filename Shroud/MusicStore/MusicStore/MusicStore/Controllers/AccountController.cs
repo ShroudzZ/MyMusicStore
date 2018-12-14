@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -106,6 +107,8 @@ namespace MusicStore.Controllers
                     lStatus.GotoAction = "Index";
                     lStatus.GotoController = "Home";
                     Session["loginStatus"] = lStatus;
+                   
+
 
                     var lUModel = new LoginUserSessionModel()
                     {

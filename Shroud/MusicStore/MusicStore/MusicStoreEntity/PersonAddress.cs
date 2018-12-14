@@ -1,14 +1,14 @@
-﻿using System;
+﻿using MusicStoreEntity.UserAndRole;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MusicStoreEntity.UserAndRole;
-using System.ComponentModel.DataAnnotations;
 
 namespace MusicStoreEntity
 {
-    public class Order
+    public class PersonAddress
     {
         [ScaffoldColumn(false)]
         public Guid ID { get; set; }
@@ -24,23 +24,11 @@ namespace MusicStoreEntity
         [Display(Name = "联系电话")]
         [Required(ErrorMessage = "手机不能为空!")]
         public string Phone { get; set; }
-        [ScaffoldColumn(false)]
-        public  decimal TotalPrice { get; set; }
-        [ScaffoldColumn(false)]
-        public string TradeNo { get; set; }
-        [ScaffoldColumn(false)]
-        public bool PaySuccess { get; set; }
-        [ScaffoldColumn(false)]
-        public virtual EnumOrderStatus EnumOrderStatus { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        
 
-
-        public Order()
+        public PersonAddress()
         {
-            ID = Guid.NewGuid();
-            OrderDate=DateTime.Now;
-            TradeNo = OrderDate.ToString("yyyyMMddhhmmssffff");
+            ID=Guid.NewGuid();
+            OrderDate = DateTime.Now;
         }
     }
 }

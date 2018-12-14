@@ -125,7 +125,6 @@ namespace MusicStore.Controllers
             if (ModelState.IsValid)
             {
                 LockedHelp.ThreadLocked(order.ID);
-
                 try
                 {
                     _context.Orders.Add(order);
@@ -139,18 +138,15 @@ namespace MusicStore.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    
                 }
                 finally
                 {
                     LockedHelp.ThreadUnLocked(order.ID);
                 }
-
                 return RedirectToAction("Alipay", "Pay", new {id = order.ID});
             }
-
             return View();
-
         }
         // GET: Order
         public ActionResult Index()
