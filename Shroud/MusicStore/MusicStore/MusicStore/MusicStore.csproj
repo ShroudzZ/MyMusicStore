@@ -141,6 +141,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\DetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PayController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="ViewModels\LoginUserSessionModel.cs" />
     <Compile Include="ViewModels\LoginUserStatus.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MyViewModel.cs" />
     <Compile Include="ViewModels\PageInfo.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
@@ -242,6 +244,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Upload\Normal\logo.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -270,8 +273,11 @@
     <Content Include="Views\Pay\AliPay.cshtml" />
     <Content Include="Views\Detail\CartDetail.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\My\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Upload\Photo\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
