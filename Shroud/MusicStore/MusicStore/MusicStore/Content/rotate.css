@@ -1,0 +1,21 @@
+﻿    .rotate{
+        transition:1s all;
+        animation-name:Rotate;
+        animation-duration:1s;
+        animation-timing-function:linear;
+        animation-iteration-count:infinite;
+    }
+    .glyphicon-cd::before{
+       
+    }
+    @keyframes Rotate{
+        from{
+            transform:rotate(0deg);
+        }
+        to{
+            transform:rotate(360deg);
+        }
+    }
+    #id{
+        margin-left: 100px;
+    }

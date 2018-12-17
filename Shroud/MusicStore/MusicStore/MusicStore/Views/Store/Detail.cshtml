@@ -3,18 +3,28 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/View.cshtml";
 }
+<link rel="stylesheet" href="~/Content/rotate.css"/>
+<div class="col-lg-4 col-sm-3 col-xs-3">
+    <h3>专辑名称：@Model.Title</h3>
+    <p>作者：@Model.Artist.Name</p>
+    <p>分类: @Html.ActionLink(Model.Genre.Name, "Genre", "Home", new { id = @Model.Genre.ID }, null) </p>
 
+    <p>价格：￥@Model.Price</p>
+    <p>出版时间：@Model.PublisherDate.ToString("yyyy年MM月dd日")</p>
+    <a class="btn btn-primary btn-sm" id="add">添加到购物车</a>
+</div>
+<div class="col-lg-8 col-sm-9 col-xs-9">
+    <span class="glyphicon glyphicon-cd" aria-hidden="true" style="font-size:250px;" id="cd">
 
-<h3>专辑名称：@Model.Title</h3>
-<p>作者：@Model.Artist.Name</p>
-<p>分类: @Html.ActionLink(Model.Genre.Name, "Genre", "Home", new { id = @Model.Genre.ID }, null) </p>
+    </span>
+    <audio src="/Upload/Normal/normal.mp3" controls="controls" id="music">
 
-<p>价格：￥@Model.Price</p>
-<p>出版时间：@Model.PublisherDate.ToString("yyyy年MM月dd日")</p>
-<a class="btn btn-primary btn-sm" id="add">添加到购物车</a>
+    </audio>
+</div>
+
 
 <script>
-    $('#add').click(function () {
+    @*$('#add').click(function () {
         $.ajax({
             type: 'post',
             async: true,
@@ -34,5 +44,24 @@
             }
         })
 
-    })
+    })*@
+
+
+
+    var cd = document.getElementById('cd');
+    var music = document.getElementById('music');
+    
+
+    var isrotate = false;
+    cd.onclick = function () {
+        if (!isrotate) {
+            cd.className = "glyphicon glyphicon-cd rotate";
+            isrotate = !isrotate;
+            music.play();
+        } else {
+            cd.className = "glyphicon glyphicon-cd ";
+            isrotate = !isrotate;
+            music.pause();
+        }
+    }
 </script>

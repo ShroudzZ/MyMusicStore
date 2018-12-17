@@ -100,7 +100,7 @@
                     @RenderBody()
                 </div>
             </div>
-            @if (Ispage)
+            @*@if (Ispage)
             {
                 <div class="row">
                     @Html.Pagination(pagemodel.PageInfo, (info) =>
@@ -130,7 +130,7 @@
                         return pagingString;
                     })
                 </div>
-            }
+            }*@
             <footer id="footer" class="footer navbar-bottom ">
                 <div class="copy-right"><span>© 2017-2018</span> <a href="http://www.miibeian.gov.cn/" target="_blank">2017级软件技术1班</a></div>
             </footer>
@@ -140,7 +140,7 @@
 </html>
 @*继承次布局页的页面执行脚本的位置*@
 @RenderSection("scripts", required: false)
-<!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=emKzTIR8orgFMUjXFLjgU1IT"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tfwCBPNPOMUb28uhnNL6EBUgBdF1aDno"></script>
 <script>
     // 定位
     var geolocation = new BMap.Geolocation();
@@ -152,33 +152,33 @@
             if (r.address.district !== "") {
                 document.getElementById('district').innerText = r.address.district;
             }
-            if (r.address.city !== "") {
-                document.getElementById('city').innerText = r.address.city;
-                $.ajax({
-                    url: "../home/GetWeather",
-                    data: { city: r.address.city },
-                    datatype: "json",
-                    type: "post",
-                    success: function (data) {
-                        $("#divWeather").html(data);
-                    }
-                });
-            }
-            else {
-                document.getElementById('city').innerText = "柳州市";
-                $.ajax({
-                    url: "../home/GetWeather",
-                    data: { city: "柳州市" },
-                    datatype: "json",
-                    type: "post",
-                    success: function (data) {
-                        $("#divWeather").html(data);
-                    }
-                });
-            }
-        }
-        else {
-            document.getElementById('city').innerText = "定位失败";
-        }
+            //if (r.address.city !== "") {
+            //    document.getElementById('city').innerText = r.address.city;
+            //    $.ajax({
+            //        url: "../home/GetWeather",
+            //        data: { city: r.address.city },
+            //        datatype: "json",
+            //        type: "post",
+            //        success: function (data) {
+            //            $("#divWeather").html(data);
+            //        }
+            //    });
+            //}
+            //else {
+            //    document.getElementById('city').innerText = "柳州市";
+            //    $.ajax({
+            //        url: "../home/GetWeather",
+            //        data: { city: "柳州市" },
+            //        datatype: "json",
+            //        type: "post",
+            //        success: function (data) {
+            //            $("#divWeather").html(data);
+            //        }
+            //    });
+            //}
+          }
+        //else {
+        //    document.getElementById('city').innerText = "定位失败";
+        //}
     }, { enableHighAccuracy: true });
-</script> -->
+</script> 
