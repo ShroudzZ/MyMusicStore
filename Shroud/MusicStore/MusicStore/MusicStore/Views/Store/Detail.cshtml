@@ -3,25 +3,79 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/View.cshtml";
 }
-<link rel="stylesheet" href="~/Content/rotate.css"/>
-<div class="col-lg-4 col-sm-3 col-xs-3">
-    <h3>专辑名称：@Model.Title</h3>
-    <p>作者：@Model.Artist.Name</p>
-    <p>分类: @Html.ActionLink(Model.Genre.Name, "Genre", "Home", new { id = @Model.Genre.ID }, null) </p>
+<link rel="stylesheet" href="~/Content/rotate.css" />
+<div class="row" style="min-height:280px ">
+    <div class="col-lg-3 col-sm-3 col-xs-3">
+        <h3>专辑名称：@Model.Title</h3>
+        <p>作者：@Model.Artist.Name</p>
+        <p>分类: @Html.ActionLink(Model.Genre.Name, "Genre", "Home", new { id = @Model.Genre.ID }, null) </p>
 
-    <p>价格：￥@Model.Price</p>
-    <p>出版时间：@Model.PublisherDate.ToString("yyyy年MM月dd日")</p>
-    <a class="btn btn-primary btn-sm" id="add">添加到购物车</a>
+        <p>价格：￥@Model.Price</p>
+        <p>出版时间：@Model.PublisherDate.ToString("yyyy年MM月dd日")</p>
+        <a class="btn btn-primary btn-sm" id="add">添加到购物车</a>
+    
+    </div>
+    <div class="col-lg-9 col-sm-9 col-xs-9">
+        <span class="glyphicon glyphicon-cd" aria-hidden="true" style="font-size:250px;" id="cd">
+        </span>
+        <audio src="/Upload/Normal/normal.mp3" controls="controls" id="music"></audio>
+    </div>
 </div>
-<div class="col-lg-8 col-sm-9 col-xs-9">
-    <span class="glyphicon glyphicon-cd" aria-hidden="true" style="font-size:250px;" id="cd">
-
-    </span>
-    <audio src="/Upload/Normal/normal.mp3" controls="controls" id="music">
-
-    </audio>
-</div>
-
+    <div class="row">
+        <div class="col-xs-2 col-sm-1 col-md-1">
+            <img src="/Upload/Normal/logo.png" alt="图片" style="width:80px">
+        </div>
+        <div class="col-xs-10 col-sm-11 col-md-11">
+            <textarea id="reply" cols="51" rows="4"></textarea>
+            <p>
+                <i class="glyphicon glyphicon-inbox" style="font-size:20px"></i>
+                <button class="btn btn-primary" id="btnreply">评论</button>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2 col-sm-1 col-md-1 bg">
+            <img src="/Upload/Normal/logo.png" alt="图片" style="width:80px">
+        </div>
+        <div class="col-xs-10 col-sm-11 col-md-11">
+            <div style="margin-top:10px;position: relative;">
+                <a href="#">骆芃芃</a>：看的第一个青春偶像剧…啥都不懂还差点哭死
+            </div>
+            <div>
+                <span style="color:#aaa">2015年1月6日</span>
+                <i class="glyphicon glyphicon-thumbs-up" style="position:absolute;right:0;"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2 col-sm-1 col-md-1 bg">
+            <img src="/Upload/Normal/logo.png" alt="图片" style="width:80px">
+        </div>
+        <div class="col-xs-10 col-sm-11 col-md-11">
+            <div style="position: relative;width: 400px;">
+                <a href="#">骆芃芃</a>：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                v：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                v
+                
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+                ：看的第一个青春偶像剧…啥都不懂还差点哭死
+            </div>
+            <div style="">
+                <span style="color:#aaa">2015年1月6日</span>
+                <i class="glyphicon glyphicon-thumbs-up" style="margin-left: 250px"></i>
+            </div>
+        </div>
+    </div>
 
 <script>
     @*$('#add').click(function () {
@@ -50,7 +104,7 @@
 
     var cd = document.getElementById('cd');
     var music = document.getElementById('music');
-    
+
 
     var isrotate = false;
     cd.onclick = function () {

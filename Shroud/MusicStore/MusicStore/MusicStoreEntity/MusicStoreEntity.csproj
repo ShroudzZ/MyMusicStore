@@ -79,6 +79,9 @@
     <Compile Include="UserAndRole\Person.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\MusicStore\Views\Store\Detail.cshtml">
+      <Link>Detail.cshtml</Link>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
