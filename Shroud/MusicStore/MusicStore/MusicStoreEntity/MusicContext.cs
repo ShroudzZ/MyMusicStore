@@ -28,6 +28,7 @@ namespace MusicStoreEntity
         public IDbSet<Order> Orders { get; set; }
         public IDbSet<OrderDetail> OrderDetails { get; set; }
         public IDbSet<PersonAddress> PersonAddresses { get; set; }
+        public IDbSet<Reply> Replys { get; set; }
 
         //调用基类的构造函数
         public MusicContext() : base("MusicContext") { }
