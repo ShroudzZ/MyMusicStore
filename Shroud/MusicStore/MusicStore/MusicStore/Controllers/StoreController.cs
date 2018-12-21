@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MusicStore.ViewModels;
 using MusicStoreEntity;
 
 namespace MusicStore.Controllers
@@ -19,9 +20,20 @@ namespace MusicStore.Controllers
 
         public ActionResult Detail(Guid id)
         {
-	    var album = _context.Albums.Find(id);
 
-            return View(album);
+
+            var relylist = new List<Reply>();
+            foreach (var r in _context.Replys.ToList())
+            {
+                relylist.Add(r);
+            }
+            var albumrelyVM = new AlbumRelyViewModel()
+            {
+                album = _context.Albums.Find(id),
+                replys = relylist
+            };
+	       
+            return View(albumrelyVM);
            
         }
     }

@@ -144,6 +144,7 @@
     <Compile Include="Controllers\MyController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PayController.cs" />
+    <Compile Include="Controllers\RelyController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -167,6 +168,7 @@
     <Compile Include="ueditor\net\App_Code\PathFormater.cs" />
     <Compile Include="ueditor\net\App_Code\UploadHandler.cs" />
     <Compile Include="ViewModels\AddressViewModel.cs" />
+    <Compile Include="ViewModels\AlbumRelyViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordModel.cs" />
     <Compile Include="ViewModels\LoginUserSessionModel.cs" />
     <Compile Include="ViewModels\LoginUserStatus.cs" />
@@ -565,6 +567,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Upload\Photo\" />
+    <Folder Include="Views\Rely\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

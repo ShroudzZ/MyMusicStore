@@ -1,4 +1,4 @@
-﻿@model MusicStoreEntity.Album
+﻿@model MusicStore.ViewModels.AlbumRelyViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/View.cshtml";
@@ -15,12 +15,12 @@
 <link rel="stylesheet" href="~/Content/rotate.css" />
 <div class="row" style="min-height:280px ">
     <div class="col-lg-3 col-sm-3 col-xs-3">
-        <h3>专辑名称：@Model.Title</h3>
-        <p>作者：@Model.Artist.Name</p>
-        <p>分类: @Html.ActionLink(Model.Genre.Name, "Genre", "Home", new { id = @Model.Genre.ID }, null) </p>
+        <h3>专辑名称：@Model.album.Title</h3>
+        <p>作者：@Model.album.Artist.Name</p>
+        <p>分类: @Html.ActionLink(Model.album.Genre.Name, "Genre", "Home", new { id = @Model.album.Genre.ID }, null) </p>
 
-        <p>价格：￥@Model.Price</p>
-        <p>出版时间：@Model.PublisherDate.ToString("yyyy年MM月dd日")</p>
+        <p>价格：￥@Model.album.Price</p>
+        <p>出版时间：@Model.album.PublisherDate.ToString("yyyy年MM月dd日")</p>
         <a class="btn btn-primary btn-sm" id="add">添加到购物车</a>
 
     </div>
@@ -39,89 +39,72 @@
     </div>
     <div class="col-xs-10 col-sm-11 col-md-11">
         <script id="container" name="content" type="text/plain" class="editor" style="width: 100%; overflow-Y:scroll;">
+        
         </script>
+        <button class="btn btn-primary" style="float:right;margin:15px;" id="rely">评论</button>
+        
     </div>
+</div>
+
+<div class="row" id="relyrow">
+@foreach (var i in Model.replys)
+{
+    <div class="row" >
+        <div style="box-sizing: border-box;padding:50px">
+            <div class="col-xs-2 col-sm-1 col-md-1 bg">
+                <img src="@i.Person.Avarda" alt="图片" class="img-thumbnail" style="max-height: 45px;max-width: 45px">
+            </div>
+            <div class="col-xs-10 col-sm-11 col-md-11">
+                <div style="min-width: 400px;">
+                    <a href="#">@i.Person.Name</a>
+                    @i.Content
+                </div>
+                <div style="min-width: 400px;">
+                    <span style="color:#aaa">@i.CreateDateTime</span>
+                    <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px"></i>
+                    <a href='#' style='float:right' onclick="parentReply(@i.ID)">回复</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 </div>
 
 
 
-<div class="row">
-    <div style="box-sizing: border-box;padding:50px">
-        <div class="col-xs-2 col-sm-1 col-md-1 bg">
-            <img src="/Upload/Normal/logo.png" alt="图片" class="img-thumbnail" style="width: 80px">
-        </div>
-        <div class="col-xs-10 col-sm-11 col-md-11">
-            <div style="min-width: 400px;">
-                <a href="#">骆芃芃</a>：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                v：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                v
 
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-            </div>
-            <div style="min-width: 400px;">
-                <span style="color:#aaa">2015年1月6日</span>
-                <i class="glyphicon glyphicon-thumbs-up" style="float:right"></i>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div style="box-sizing: border-box;padding:50px">
-        <div class="col-xs-2 col-sm-1 col-md-1 bg">
-            <img src="/Upload/Photo/c1e6e08d-ba43-4732-b2a2-527b24be2af6.jpg" alt="图片" class="img-thumbnail" style="min-height: 45px;min-width: 45px">
-        </div>
-        <div class="col-xs-10 col-sm-11 col-md-11">
-            <div style="min-width: 400px;">
-                <a href="#">骆芃芃</a>：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                v：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                v
-
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-                ：看的第一个青春偶像剧…啥都不懂还差点哭死
-            </div>
-            <div style="min-width: 400px;">
-                <span style="color:#aaa">2015年1月6日</span>
-                <i class="glyphicon glyphicon-thumbs-up" style="float:right"></i>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="~/ueditor/ueditor.config.js"></script>
 <script src="~/ueditor/ueditor.all.min.js"></script>
-<script type="text/javascript">
-    var ue = UE.getEditor('container');
-</script>
 <script>
+    var ue = UE.getEditor('container');
+    function getContentTxt() {
+        var arr = [];
+        arr.push(UE.getEditor('container').getContentTxt());
+        return arr;
+    }
+    $('#rely').click(function () {
+        $.ajax({
+            type: 'post',
+            async: true,
+            url: '../../Rely/AddRely',
+            data: { id: "@Model.album.ID", relydata: getContentTxt() },
+            dataType: 'json',
+            success: function (data) {
+                setTimeout(function() {
+                    $('#relyrow').html(data);
+                },1000)
+                
+            }
+        })
+    })
+
     @*$('#add').click(function () {
         $.ajax({
             type: 'post',
             async: true,
             url: '../../Cart/AddCart',
-            data: { id: "@Model.ID" },
+            data: { id: "@Model.album.ID" },
             dataType: 'json',
             success:function(data) {
                 if (data == "nologin") {
