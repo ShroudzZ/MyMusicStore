@@ -23,7 +23,8 @@ namespace MusicStore.Controllers
 
 
             var relylist = new List<Reply>();
-            foreach (var r in _context.Replys.ToList())
+            var list = _context.Replys.Where(x => x.ID == id).ToList();
+            foreach (var r in list)
             {
                 relylist.Add(r);
             }

@@ -68,6 +68,12 @@ namespace MusicStore.Controllers
             return Json(htmlString);
         }
 
+        public ActionResult AddParentReply()
+        {
+
+            return Json("");
+        }
+
 
 
     }

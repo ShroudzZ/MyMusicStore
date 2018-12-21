@@ -77,6 +77,22 @@
 <script src="~/ueditor/ueditor.config.js"></script>
 <script src="~/ueditor/ueditor.all.min.js"></script>
 <script>
+
+    function parentReply(id) {
+        $.ajax({
+            type: 'post',
+            async: true,
+            url: '../../Rely/AddParentReply',
+            data: { id: id, relydata: 1 },
+            dataType: 'json',
+            success:function(data) {
+
+            }
+        })
+    }
+       
+
+
     var ue = UE.getEditor('container');
     function getContentTxt() {
         var arr = [];
@@ -94,7 +110,7 @@
                 setTimeout(function() {
                     $('#relyrow').html(data);
                 },1000)
-                
+
             }
         })
     })
