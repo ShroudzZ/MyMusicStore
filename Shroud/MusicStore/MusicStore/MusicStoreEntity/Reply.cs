@@ -19,10 +19,11 @@ namespace MusicStoreEntity
 
         public virtual Album Album { get; set; }
 
-        public virtual Reply ParentReply { get; set; }   
+        public virtual Reply ParentReply { get; set; }
 
-        public DateTime CreateDateTime { get; set; }  
-
+        public DateTime CreateDateTime { get; set; }
+        public int Like { get; set; }
+        public int Hate { get; set; }
         public Reply()
         {
             ID = Guid.NewGuid();

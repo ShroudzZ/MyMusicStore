@@ -20,6 +20,7 @@ namespace MusicStore.Controllers
         }
         //Album id;
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddRely(Guid id, string[] relydata)
         {
            
