@@ -14,6 +14,7 @@ namespace MusicStore.Controllers
         // GET: Store
         public ActionResult Index()
         {
+            ViewBag.loginUserName = ((LoginUserSessionModel) (Session["LoginUserSessionModel"])).Person.Avarda;
             var list = _context.Genres.ToList();
             return View(list);
         }
