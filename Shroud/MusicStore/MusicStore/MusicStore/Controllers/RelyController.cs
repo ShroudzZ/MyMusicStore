@@ -55,11 +55,11 @@ namespace MusicStore.Controllers
                 htmlString += "<div class=\"col-xs-2 col-sm-1 col-md-1 bg\">";
                 htmlString += "<img src='" + item.Person.Avarda + "' alt='图片' class=\"img-thumbnail\" style = \"max-height: 45px;max-width: 45px\" >";
                 htmlString += "</div>";
-                htmlString += "<div class=\"col - xs - 10 col - sm - 11 col - md - 11\">";
-                htmlString += "<div style=\"min - width: 400px; \">";
+                htmlString += "<div class=\"col-xs-10 col-sm-11 col-md-11\">";
+                htmlString += "<div style=\"min-width:400px; \">";
                 htmlString += " <a href=\"#\">" + item.Person.Name + "</a>:" + item.Content + "";
                 htmlString += "</div>";
-                htmlString += "<div style=\"min - width: 400px; \">";
+                htmlString += "<div style=\"min-width:400px; \">";
                 htmlString += " <span style=\"color:#aaa\">" + item.CreateDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "</span> <i class='glyphicon glyphicon-thumbs-up' style='float:right;margin-top:0px;margin-left:20px'></i><a href='#' id='parentReply' style='float:right'>回复</a>";
                 htmlString += "</div>";
                 htmlString += "</div>";
@@ -68,7 +68,7 @@ namespace MusicStore.Controllers
             }
             return Json(htmlString);
         }
-
+        [HttpPost]
         public ActionResult AddParentReply()
         {
 
