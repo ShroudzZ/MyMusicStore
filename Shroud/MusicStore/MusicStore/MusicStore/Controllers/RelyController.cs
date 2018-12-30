@@ -60,7 +60,7 @@ namespace MusicStore.Controllers
                 htmlString += " <a href=\"#\">" + item.Person.Name + "</a>:" + item.Content + "";
                 htmlString += "</div>";
                 htmlString += "<div style=\"min-width:400px; \">";
-                htmlString += " <span style=\"color:#aaa\">" + item.CreateDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "</span> <i class='glyphicon glyphicon-thumbs-up' style='float:right;margin-top:0px;margin-left:20px'></i><a href='#' id='parentReply' style='float:right'>回复</a>";
+                htmlString += " <span style=\"color:#aaa\">" + item.CreateDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "</span><i class='glyphicon glyphicon-thumbs-down' style='float:right;margin-top:0px;margin-left:20px'></i> <i class='glyphicon glyphicon-thumbs-up' style='float:right;margin-top:0px;margin-left:20px'></i><a href='#' id='parentReply' style='float:right'>回复</a>";
                 htmlString += "</div>";
                 htmlString += "</div>";
                 htmlString += "</div>";

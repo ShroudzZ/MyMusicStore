@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LikeReply.cs" />
     <Compile Include="PersonAddress.cs" />
     <Compile Include="Album.cs" />
     <Compile Include="Artist.cs" />

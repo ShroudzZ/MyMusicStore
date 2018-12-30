@@ -62,8 +62,9 @@
                 </div>
                 <div style="min-width: 400px;">
                     <span style="color:#aaa">@i.CreateDateTime</span>
-                    <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px"></i>
-                    <a href='#' style='float:right' onclick="parentReply(@i.ID)">回复</a>
+                    <i class="glyphicon glyphicon-thumbs-down" style="float:right;margin-top:0px;margin-left:20px">(@i.Like)</i>
+                    <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px">(@i.Hate)</i>
+                    <a href='#' style='float:right' onclick="parentReply(@i.ID)">回复()</a>
                 </div>
             </div>
         </div>
