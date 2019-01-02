@@ -21,7 +21,7 @@ namespace MusicStore.Controllers
 
         public ActionResult Detail(Guid id)
         {
-
+            if(Session["LoginUserSessionModel"]!=null)
             ViewBag.loginUserName = ((LoginUserSessionModel)(Session["LoginUserSessionModel"])).Person.Avarda;
             var relylist = new List<Reply>();
             var list = _context.Replys.Where(x => x.Album.ID == id).ToList();

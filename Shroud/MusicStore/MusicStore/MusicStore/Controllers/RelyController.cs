@@ -20,16 +20,17 @@ namespace MusicStore.Controllers
         }
         //Album id;
         [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult AddRely(Guid id, string[] relydata,Guid replyid)
+        public ActionResult AddRely(string id, string[] relydata, string replyid)
         {
-           
+
             if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
             {
                 return RedirectToAction("login", "Account");
             }
+            var ID = Guid.Parse(id);
+
             var p = _context.Persons.Find((Session["LoginUserSessionModel"] as LoginUserSessionModel).Person.ID);
-            var a = _context.Albums.Find(id);
+            var a = _context.Albums.Find(ID);
             var imgPath = p.Avarda;
             var htmlString = "";
             var rely = new Reply()
@@ -39,27 +40,28 @@ namespace MusicStore.Controllers
                 Person = p,
                 Album = a,
             };
-            rely.Title = p.Name + ":评论了专辑:" + a.Title;
-
-            if (replyid.Equals(null))
+            if (replyid.Equals(""))
             {
+                rely.Title = p.Name + ":评论了专辑:" + a.Title;
                 rely.ParentReply = null;
             }
             else
             {
-                rely.ParentReply = _context.Replys.Find(replyid);
+                rely.Title = p.Name + ":回复了:";
+                var PID = Guid.Parse(replyid);
+                rely.ParentReply = _context.Replys.Find(PID);
             }
-
             _context.Replys.Add(rely);
             _context.SaveChanges();
             var replylist = new List<Reply>();
-            var list = _context.Replys.Where(x => x.Album.ID == id).OrderByDescending(x => x.CreateDateTime).ToList();
+            var list = _context.Replys.Where(x => x.Album.ID == ID).OrderByDescending(x => x.CreateDateTime).ToList();
             foreach (var r in list)
             {
                 replylist.Add(r);
             }
             foreach (var item in replylist)
             {
+                var sonCmt = _context.Replys.Where(x => x.ParentReply.ID == item.ID).ToList();
                 htmlString += "<div class='row'>";
                 htmlString += "<div style=\"box-sizing:border-box;padding:50px\">";
                 htmlString += "<div class=\"col-xs-2 col-sm-1 col-md-1 bg\">";
@@ -67,10 +69,10 @@ namespace MusicStore.Controllers
                 htmlString += "</div>";
                 htmlString += "<div class=\"col-xs-10 col-sm-11 col-md-11\">";
                 htmlString += "<div style=\"min-width:400px; \">";
-                htmlString += " <a href=\"#\">" + item.Person.Name + "</a>:" + item.Content + "";
+                htmlString += item.Person.Name +"："+ item.Content;
                 htmlString += "</div>";
                 htmlString += "<div style=\"min-width:400px; \">";
-                htmlString += " <span style=\"color:#aaa\">" + item.CreateDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "</span><i class='glyphicon glyphicon-thumbs-down' style='float:right;margin-top:0px;margin-left:20px'></i> <i class='glyphicon glyphicon-thumbs-up' style='float:right;margin-top:0px;margin-left:20px'></i><a href='#' id='parentReply' style='float:right'>回复</a>";
+                htmlString += " <span style=\"color:#aaa\">" + item.CreateDateTime.ToString("yyyy-MM-dd hh:mm:ss") + "</span><i class='glyphicon glyphicon-thumbs-down' style='float:right;margin-top:0px;margin-left:20px'>(" + item.Hate + ")</i> <i class='glyphicon glyphicon-thumbs-up' style='float:right;margin-top:0px;margin-left:20px'>(" + item.Like + ")</i><a href='#' id='parentReply' style='float:right' onclick=\"parentReply('@i.ID')\">回复(" + sonCmt.Count + ")</a>";
                 htmlString += "</div>";
                 htmlString += "</div>";
                 htmlString += "</div>";

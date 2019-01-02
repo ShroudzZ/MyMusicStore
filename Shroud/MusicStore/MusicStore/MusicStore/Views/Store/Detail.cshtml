@@ -63,16 +63,12 @@
                         <i class="glyphicon glyphicon-thumbs-down" style="float:right;margin-top:0px;margin-left:20px">(@i.Like)</i>
                         <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px">(@i.Hate)</i>
                         <a href='#' style='float:right' onclick="parentReply('@i.ID')">回复(@Model.replys.Where(x => x.ID == i.ID && x.ParentReply != null).ToList().Count)</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     }
 </div>
-
-
-
-
 
 
 <script src="~/ueditor/ueditor.config.js"></script>
@@ -86,15 +82,13 @@
         return arr;
     }
 
-
-
-    var pid;
+    var pid = null;
     var pcontent;
     function parentReply(id) {
         pcontent = document.getElementById(id).innerHTML;
         pid = id;
-        ue.setContent(pcontent.replace(/\s+/g, ""));
-
+        ue.focus();
+        ue.execCommand('inserthtml', "回复：" + pcontent.replace(/\s+/g, "") + "    ");
     }
 
     $('#rely').click(function () {
@@ -102,39 +96,16 @@
             type: 'post',
             async: true,
             url: '../../Rely/AddRely',
-            data: { id: "@Model.album.ID", relydata: getContentTxt(),replyid:pid },
+            data: { id: "@Model.album.ID", relydata: getContentTxt(), replyid: pid },
             dataType: 'json',
             success: function (data) {
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#relyrow').html(data);
-                },1000)
+                }, 1000)
 
             }
         })
     })
-
-    @*$('#add').click(function () {
-        $.ajax({
-            type: 'post',
-            async: true,
-            url: '../../Cart/AddCart',
-            data: { id: "@Model.album.ID" },
-            dataType: 'json',
-            success:function(data) {
-                if (data == "nologin") {
-                    location.href =
-                        "@Url.Action("login","Account",new {returnUrl=Url.Action("Detail","Store",new {id=Model.ID})})";
-                } else {
-                    setTimeout(function() {
-                            location.reload();
-                        },
-                        1000);
-                }
-            }
-        })
-
-    })*@
-
 
 
     var cd = document.getElementById('cd');
