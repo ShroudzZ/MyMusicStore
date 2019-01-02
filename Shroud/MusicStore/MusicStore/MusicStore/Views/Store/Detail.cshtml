@@ -6,11 +6,10 @@
 }
 
 <style>
-    .editor{
+    .editor {
         width: 100%;
-        overflow-y:scroll;
+        overflow-y: scroll;
     }
-
 </style>
 
 <link rel="stylesheet" href="~/Content/rotate.css" />
@@ -40,37 +39,37 @@
     </div>
     <div class="col-xs-10 col-sm-11 col-md-11">
         <script id="container" name="content" type="text/plain" class="editor" style="width: 100%; overflow-Y:scroll;">
-        
+
         </script>
         <button class="btn btn-primary" style="float:right;margin:15px;" id="rely">评论</button>
-        
+
     </div>
 </div>
 
 <div class="row" id="relyrow">
-@foreach (var i in Model.replys)
-{
-    <div class="row" >
-        <div style="box-sizing: border-box;padding:50px">
-            <div class="col-xs-2 col-sm-1 col-md-1 bg">
-                <img src="@i.Person.Avarda" alt="图片" class="img-thumbnail" style="max-height: 45px;max-width: 45px">
-            </div>
-            <div class="col-xs-10 col-sm-11 col-md-11">
-                <div style="min-width: 400px;">
-                    <a href="#">@i.Person.Name</a>
-                    @i.Content
+    @foreach (var i in Model.replys)
+    {
+        <div class="row">
+            <div style="box-sizing: border-box;padding:50px">
+                <div class="col-xs-2 col-sm-1 col-md-1 bg">
+                    <img src="@i.Person.Avarda" alt="图片" class="img-thumbnail" style="max-height: 45px;max-width: 45px">
                 </div>
-                <div style="min-width: 400px;">
-                    <span style="color:#aaa">@i.CreateDateTime</span>
-                    <i class="glyphicon glyphicon-thumbs-down" style="float:right;margin-top:0px;margin-left:20px">(@i.Like)</i>
-                    <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px">(@i.Hate)</i>
-                    <a href='#' style='float:right' onclick="parentReply(@i.ID)">回复()</a>
+                <div class="col-xs-10 col-sm-11 col-md-11">
+                    <div style="min-width: 400px;" id="@i.ID">
+                        @i.Person.Name：@i.Content
+                    </div>
+                    <div style="min-width: 400px;">
+                        <span style="color:#aaa">@i.CreateDateTime</span>
+                        <i class="glyphicon glyphicon-thumbs-down" style="float:right;margin-top:0px;margin-left:20px">(@i.Like)</i>
+                        <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px">(@i.Hate)</i>
+                        <a href='#' style='float:right' onclick="parentReply('@i.ID')">回复(@Model.replys.Where(x => x.ID == i.ID && x.ParentReply != null).ToList().Count)</a>
                 </div>
             </div>
         </div>
     </div>
-}
+    }
 </div>
+
 
 
 
@@ -80,33 +79,30 @@
 <script src="~/ueditor/ueditor.all.min.js"></script>
 <script>
 
-    function parentReply(id) {
-        $.ajax({
-            type: 'post',
-            async: true,
-            url: '../../Rely/AddParentReply',
-            data: { id: id, relydata: 1 },
-            dataType: 'json',
-            success:function(data) {
-
-            }
-        })
-    }
-       
-
-
     var ue = UE.getEditor('container');
     function getContentTxt() {
         var arr = [];
         arr.push(UE.getEditor('container').getContentTxt());
         return arr;
     }
+
+
+
+    var pid;
+    var pcontent;
+    function parentReply(id) {
+        pcontent = document.getElementById(id).innerHTML;
+        pid = id;
+        ue.setContent(pcontent.replace(/\s+/g, ""));
+
+    }
+
     $('#rely').click(function () {
         $.ajax({
             type: 'post',
             async: true,
             url: '../../Rely/AddRely',
-            data: { id: "@Model.album.ID", relydata: getContentTxt() },
+            data: { id: "@Model.album.ID", relydata: getContentTxt(),replyid:pid },
             dataType: 'json',
             success: function (data) {
                 setTimeout(function() {

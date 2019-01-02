@@ -21,7 +21,7 @@ namespace MusicStore.Controllers
         //Album id;
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult AddRely(Guid id, string[] relydata)
+        public ActionResult AddRely(Guid id, string[] relydata,Guid replyid)
         {
            
             if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
@@ -40,6 +40,16 @@ namespace MusicStore.Controllers
                 Album = a,
             };
             rely.Title = p.Name + ":评论了专辑:" + a.Title;
+
+            if (replyid.Equals(null))
+            {
+                rely.ParentReply = null;
+            }
+            else
+            {
+                rely.ParentReply = _context.Replys.Find(replyid);
+            }
+
             _context.Replys.Add(rely);
             _context.SaveChanges();
             var replylist = new List<Reply>();
@@ -68,14 +78,20 @@ namespace MusicStore.Controllers
             }
             return Json(htmlString);
         }
-        [HttpPost]
-        public ActionResult AddParentReply()
-        {
 
+
+
+
+        [HttpPost]
+        public ActionResult Like(Guid id)
+        {
             return Json("");
         }
 
-
-
+        [HttpPost]
+        public ActionResult Hate(Guid id)
+        {
+            return Json("");
+        }
     }
 }
