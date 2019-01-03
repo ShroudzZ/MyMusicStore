@@ -60,14 +60,26 @@
                     </div>
                     <div style="min-width: 400px;">
                         <span style="color:#aaa">@i.CreateDateTime</span>
-                        <i class="glyphicon glyphicon-thumbs-down" style="float:right;margin-top:0px;margin-left:20px">(@i.Like)</i>
-                        <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px">(@i.Hate)</i>
-                        <a href='#' style='float:right' onclick="parentReply('@i.ID')">回复(@Model.replys.Where(x => x.ID == i.ID && x.ParentReply != null).ToList().Count)</a>
+                        <i class="glyphicon glyphicon-thumbs-down" style="float:right;margin-top:0px;margin-left:20px" onclick="Like('@i.ID')">(@i.Hate)</i>
+                        <i class="glyphicon glyphicon-thumbs-up" style="float:right;margin-top:0px;margin-left:20px" onclick="Like('@i.ID')">(@i.Like)</i>
+                        <a href="#" style='float:right' onclick="javascript:ShowCmt('@i.ID')" >查看所有回复</a><a href='#' style='float:right;margin-right: 10px' onclick="parentReply('@i.ID')">回复</a>
                     </div>
                 </div>
             </div>
         </div>
     }
+</div>
+
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="Div-SonCmts">
+            
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 
 
@@ -99,19 +111,54 @@
             data: { id: "@Model.album.ID", relydata: getContentTxt(), replyid: pid },
             dataType: 'json',
             success: function (data) {
-                setTimeout(function () {
                     $('#relyrow').html(data);
-                }, 1000)
-
+                    ue.setContent('');
             }
         })
     })
 
+    function ShowCmt(id) {
+        $.ajax({
+            type: 'post',
+            asyn: true,
+            url: '@Url.Action("showCmts","Rely")',
+            data: { "pid": id },
+            dataType: 'json',
+            success: function (data) {
+                $("#Div-SonCmts").html(data);
+                $('#myModal').modal('toggle');
+            }
+        });
+    }
+    function Like(id) {
+        $.ajax({
+            type: 'post',
+            asyn: true,
+            url: '../../Rely/Like',
+            data: { "id": id },
+            dataType: 'json',
+            success: function(data) {
+
+            }
+        });
+    }
+    function Hate(id) {
+        $.ajax({
+            type: 'post',
+            asyn: true,
+            url: '../../Rely/Hate',
+            data: { "id": id },
+            dataType: 'json',
+            success: function(data) {
+
+            }
+        });
+    }
+
+
 
     var cd = document.getElementById('cd');
     var music = document.getElementById('music');
-
-
     var isrotate = false;
     cd.onclick = function () {
         if (!isrotate) {
